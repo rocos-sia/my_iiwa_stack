@@ -1,0 +1,37 @@
+{
+  "configurations": [
+    {
+      "browse": {
+        "databaseFilename": "",
+        "limitSymbolsToIncludedHeaders": true
+      },
+      "includePath": [
+        "/home/abc418/my_iiwa_stack_latest/devel/include/**",
+        "/home/abc418/my_iiwa_stack_1_7/devel/include/**",
+        "/home/abc418/ws_moveit/devel/include/**",
+        "/opt/ros/melodic/include/**",
+        "/home/abc418/ws_moveit/src/moveit/moveit_planners/chomp/chomp_motion_planner/include/**",
+        "/home/abc418/ws_moveit/src/geometric_shapes/include/**",
+        "/home/abc418/my_iiwa_stack_latest/src/iiwa_stack-update-v1.7-from-upstream/iiwa_hw/include/**",
+        "/home/abc418/my_iiwa_stack_latest/src/iiwa_stack-update-v1.7-from-upstream/iiwa_ros/include/**",
+        "/home/abc418/ws_moveit/src/moveit/moveit_planners/chomp/chomp_interface/include/**",
+        "/home/abc418/ws_moveit/src/moveit_resources/prbt_ikfast_manipulator_plugin/include/**",
+        "/home/abc418/ws_moveit/src/moveit/moveit_ros/benchmarks/include/**",
+        "/home/abc418/ws_moveit/src/moveit/moveit_plugins/moveit_ros_control_interface/include/**",
+        "/home/abc418/ws_moveit/src/moveit/moveit_ros/move_group/include/**",
+        "/home/abc418/ws_moveit/src/moveit/moveit_ros/occupancy_map_monitor/include/**",
+        "/home/abc418/ws_moveit/src/moveit/moveit_ros/robot_interaction/include/**",
+        "/home/abc418/ws_moveit/src/moveit/moveit_ros/moveit_servo/include/**",
+        "/home/abc418/ws_moveit/src/moveit/moveit_setup_assistant/include/**",
+        "/home/abc418/ws_moveit/src/moveit/moveit_plugins/moveit_simple_controller_manager/include/**",
+        "/home/abc418/ws_moveit/src/moveit_visual_tools/include/**",
+        "/home/abc418/ws_moveit/src/moveit/moveit_planners/pilz_industrial_motion_planner/include/**",
+        "/home/abc418/ws_moveit/src/moveit/moveit_planners/pilz_industrial_motion_planner_testutils/include/**",
+        "/home/abc418/ws_moveit/src/rviz_visual_tools/include/**",
+        "/usr/include/**"
+      ],
+      "name": "ROS"
+    }
+  ],
+  "version": 4
+}

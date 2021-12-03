@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<launch>
+
+    <!-- 参数 -->
+    <arg name="hardware_interface" default="PositionJointInterface"/>
+    <arg name="controllers" default="joint_state_controller pos_joint_trajectory_controller"/>
+    <arg name="robot_name" default="iiwa" />
+    <arg name="model" default="iiwa7" />
+    <arg name="joint_state_frequency" default="100" />
+    <arg name="robot_state_frequency" default="100" />
+
+    <!-- 把支持的所有支持的控制器参数加载到参数服务器 -->
+    <rosparam file="$(find iiwa_control)/config/iiwa_control.yaml" command="load" />
+    <!-- joint_state_controller消息发布频率 -->
+    <param name="/$(arg robot_name)/joint_state_controller/publish_rate" value="$(arg joint_state_frequency)" />
+
+    <!-- 加载控制器插件 -->
+    <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false" output="screen" args="$(arg controllers)" />
+
+    <!-- 接收    joint_state_controller消息，并转换成TF消息 -->
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="false" output="screen">
+        <remap from="joint_states" to="/$(arg robot_name)/joint_states" />
+        <param name="publish_frequency" value="$(arg robot_state_frequency)" />
+    </node>
+
+</launch>

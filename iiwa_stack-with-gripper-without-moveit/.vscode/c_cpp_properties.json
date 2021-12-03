@@ -1,0 +1,32 @@
+{
+  "configurations": [
+    {
+      "browse": {
+        "databaseFilename": "",
+        "limitSymbolsToIncludedHeaders": true
+      },
+      "includePath": [
+        "/home/abc418/my_iiwa_stack_2019_with_gripper/devel/include/**",
+        "/home/abc418/my_ros_control/devel/include/**",
+        "/opt/ros/melodic/include/**",
+        "/home/abc418/my_iiwa_stack_2019_with_gripper/src/iiwa_stack-with-gripper/iiwa_hw/include/**",
+        "/home/abc418/my_iiwa_stack_2019_with_gripper/src/iiwa_stack-with-gripper/iiwa_ros/include/**",
+        "/home/abc418/my_ros_control/src/new_robotic_system/my_controllers/my_joint_state_controller/include/**",
+        "/home/abc418/my_ros_control/src/new_robotic_system/my_hw_interface/my_joint_state_interface/include/**",
+        "/home/abc418/my_ros_control/src/new_robotic_system/my_msg/my_joint_state_msg/include/**",
+        "/home/abc418/my_ros_control/src/new_robotic_system/my_controllers/my_joint_trajectory_controller/include/**",
+        "/home/abc418/my_ros_control/src/new_robotic_system/my_controllers/my_position_controllers/include/**",
+        "/home/abc418/my_iiwa_stack_2019_with_gripper/src/my_rviz_visual_tools_gui/include/**",
+        "/home/abc418/my_ros_control/src/new_robotic_system/position_command_publisher/include/**",
+        "/home/abc418/my_ros_control/src/new_robotic_system/publish_speed_test/include/**",
+        "/home/abc418/my_ros_control/src/rocos-main/rocos_driver/include/**",
+        "/home/abc418/my_ros_control/src/rocos-main/rocos_ethercat/include/**",
+        "/home/abc418/my_iiwa_stack_2019_with_gripper/src/rviz_visual_tool_examples/include/**",
+        "/usr/include/**",
+        "/usr/local/include/**"
+      ],
+      "name": "ROS"
+    }
+  ],
+  "version": 4
+}

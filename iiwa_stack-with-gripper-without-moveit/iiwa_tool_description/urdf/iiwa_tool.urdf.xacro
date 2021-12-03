@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+
+<!-- Here we define the robot, we named it "iiwa7_tool" -->
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="iiwa7_tool">
+
+  <!-- Import Rviz colors -->
+  <xacro:include filename="$(find iiwa_description)/urdf/materials.xacro" />
+  <!--Import the iiwa7 macro -->
+  <xacro:include filename="$(find iiwa_description)/urdf/iiwa7.xacro"/>
+
+  <!--  Arguments for the iiwa7 macro  -->
+  <xacro:arg name="hardware_interface" default="PositionJointInterface"/>
+  <xacro:arg name="robot_name" default="iiwa"/>
+
+
+  <link name="world"/>
+  <gazebo reference="world">
+    <static>true</static>
+  </gazebo>
+
+  <!-- Here we insert an iiwa7 robot in the scene, it's origin is just on top of the box previously defined. You can use 0,0,0 if you don't have that. -->
+  <xacro:iiwa7 hardware_interface="$(arg hardware_interface)" robot_name="$(arg robot_name)" parent="world">
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </xacro:iiwa7>
+
+
+  <joint name="tool_joint" type="fixed">
+    <parent link="iiwa_link_ee" />
+    <child link = "tool_link" />
+    <origin xyz="0 0  0.097" rpy="0 0 0"/>
+  </joint>
+  <!-- (1.744m+0.02m)/2 -->
+
+
+  <link name="tool_link">
+  </link>
+
+  <!--  Here we define another dummy joint. It is placed at the end of the tool, so we can then attach a frame at its TCP for control -->
+  <joint name="tool_tip_joint" type="fixed">
+    <parent link="tool_link" />
+    <child link = "tool_link_ee" />
+    <origin xyz="0 0 0.097" rpy="0 0 0"/>
+  </joint>
+
+  <!--  The TCP frame is here defined -->
+  <link name="tool_link_ee"/>
+</robot> 

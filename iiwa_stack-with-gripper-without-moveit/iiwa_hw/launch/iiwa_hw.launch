@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<launch>
+
+    <!-- 参数 -->
+    <arg name="hardware_interface" default="PositionJointInterface"/>
+    <arg name="robot_name" default="iiwa"/>
+
+    <!-- 加载控制关节的名称，后续用于URDF查询 -->
+    <rosparam command="load" file="$(find iiwa_hw)/config/joint_names.yaml" />
+    <param name="hardware_interface" value="$(arg hardware_interface)"/>
+    <param name="robot_name" value="$(arg robot_name)"/>
+    <!-- 转换关节轨迹控制器的命令给真实机器人 -->
+    <!-- <node name="iiwa_hw" pkg="iiwa_hw" type="iiwa_hw-bin" respawn="false" output="screen"/> -->
+
+</launch>
