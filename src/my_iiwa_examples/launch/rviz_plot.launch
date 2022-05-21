@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<launch>
+
+  <!-- 开启真实IIWA，必需终端导入这两句话 -->
+  <!-- 
+    export ROS_MASTER_URI=http://192.170.10.100:11311
+    export ROS_IP=192.170.10.100 
+  -->
+  <!-- +++++++++++++++++++++++++-->
+
+  <!-- 参数设置 -->
+  <arg name="minTrajExecTime" value="0.1"/>
+  <arg name="smart_velocity" value="0.2"/>
+  <arg name="smart_acceleration" value="1.0"/>
+  <arg name="smart_override_acceleration" value="1.0"/>
+  <arg name="hardware_interface" default="PositionJointInterface"/>
+  <arg name="robot_name" default="iiwa"/>
+  <arg name="tool_name" default=""/>
+  <!-- +++++++++++++++++++++++++-->
+
+  <!-- 不使用ros controllers 发布关节信息，由iiwa本身发布关节信息-->
+  <param name="/iiwa/publishJointStates" type="boolean" value="true" />
+  <!-- +++++++++++++++++++++++++-->
+
+  <!-- 参数服务器只能调节速度和加速度，如果需要调节override acceleration 则需要调用服务 -->
+  <param name="/iiwa/SmartServo/minTrajExecTime" type="double" value="$(arg minTrajExecTime)" />
+  <param name="/iiwa/SmartServo/relativeJointSpeed" type="double" value="$(arg smart_velocity)" />
+  <param name="/iiwa/SmartServo/relativeJointAcceleration" type="double" value="$(arg smart_acceleration)" />
+  <!-- +++++++++++++++++++++++++-->
+
+  <!-- 设置工具，以及默认运动frame -->
+  <!-- <param name="/iiwa/toolName" type="string" value="tool" /> -->
+  <param name="/iiwa/toolName" type="string" value="$(arg tool_name)" />
+  <!-- +++++++++++++++++++++++++-->
+
+  <!-- 加载urdf + joint_state_publisher + robot_state_publisher-->
+  <!-- joint_state_publisher的消息来源iiwa本体，所以/iiwa/publishJointStates必需为true-->
+  <param name="robot_description" command="$(find xacro)/xacro --inorder '$(find iiwa_tool_description)/urdf/iiwa_tool.urdf.xacro' hardware_interface:=$(arg hardware_interface) robot_name:=$(arg robot_name)" />
+
+  <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" output="screen">
+    <param name="use_gui" value="false"/>
+    <rosparam param="source_list">["/iiwa/my_joint_states"]</rosparam>
+  </node>
+
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="true" output="screen" />
+  <!-- +++++++++++++++++++++++++-->
+
+
+  <!-- 加载 rviz-->
+  <node name="$(anon rviz)" pkg="rviz" type="rviz" respawn="false" args="-d $(find my_iiwa_examples)/launch/moveit.rviz" output="screen">
+  </node>
+  <!-- +++++++++++++++++++++++++-->
+
+
+</launch>

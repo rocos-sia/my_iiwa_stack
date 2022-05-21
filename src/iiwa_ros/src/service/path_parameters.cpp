@@ -30,73 +30,59 @@
 
 #include <iiwa_ros/service/path_parameters.hpp>
 
-namespace iiwa_ros
-{
-namespace service
-{
-  void PathParametersService::init(const std::string& robot_namespace)
-  {
-    setup(robot_namespace);
-    ros::NodeHandle node_handle{};
-    service_name_  = ros_namespace_ + "configuration/setSmartServoLimits";
-    client_        = node_handle.serviceClient<iiwa_msgs::SetSmartServoJointSpeedLimits>(service_name_);
-    service_ready_ = true;
-  }
-  bool PathParametersService::callService()
-  {
-    if (service_ready_)
-    {
-      if (client_.call(config_))
-      {
-        if (!config_.response.success && verbose_)
-        {
-          service_error_ = config_.response.error;
-          ROS_ERROR_STREAM(service_name_ << " failed, Java error: " << service_error_);
-        }
-        else if (verbose_)
-        {
-          ROS_INFO_STREAM(ros::this_node::getName() << ":" << service_name_ << " successfully called.");
-        }
+namespace iiwa_ros {
+namespace service {
+
+void PathParametersService::init(const std::string& robot_namespace) {
+  setup(robot_namespace);
+  ros::NodeHandle node_handle{};
+  service_name_ = ros_namespace_ + "configuration/setSmartServoJointSpeedLimits";
+  client_ = node_handle.serviceClient<iiwa_msgs::SetSmartServoJointSpeedLimits>(service_name_);
+  service_ready_ = true;
+}
+
+bool PathParametersService::callService() {
+  if (service_ready_) {
+    if (client_.call(config_)) {
+      if (!config_.response.success && verbose_) {
+        service_error_ = config_.response.error;
+        ROS_ERROR_STREAM(service_name_ << " failed, Java error: " << service_error_);
+      } else if (verbose_) {
+        ROS_INFO_STREAM(ros::this_node::getName() << ":" << service_name_ << " successfully called.");
       }
-      else if (verbose_)
-      {
-        ROS_ERROR_STREAM(service_name_ << " could not be called");
-      }
-      return config_.response.success;
+    } else if (verbose_) {
+      ROS_ERROR_STREAM(service_name_ << " could not be called");
     }
-    ROS_ERROR_STREAM("The service client was not intialized yet. Call the init function of this object first.");
+    return config_.response.success;
   }
+  ROS_ERROR_STREAM("The service client was not intialized yet. Call the init function of this object first.");
+}
 
-  bool PathParametersService::setSmartServoJointSpeedLimits(const double joint_relative_velocity,
-                                                            const double joint_relative_acceleration,
-                                                            const double override_joint_acceleration)
-  {
-    config_.request.joint_relative_velocity     = joint_relative_velocity;
-    config_.request.joint_relative_acceleration = joint_relative_acceleration;
-    config_.request.override_joint_acceleration = override_joint_acceleration;
-    return callService();
-  }
+bool PathParametersService::setSmartServoJointSpeedLimits(const double joint_relative_velocity,
+                                              const double joint_relative_acceleration,
+                                              const double override_joint_acceleration) {
+  config_.request.joint_relative_velocity = joint_relative_velocity;
+  config_.request.joint_relative_acceleration = joint_relative_acceleration;
+  config_.request.override_joint_acceleration = override_joint_acceleration;
+  return callService();
+}
 
-  bool PathParametersService::setSmartServoJointSpeedLimits(const double joint_relative_velocity,
-                                                            const double joint_relative_acceleration)
-  {
-    setSmartServoJointSpeedLimits(joint_relative_velocity, joint_relative_acceleration, -1);
-  }
+bool PathParametersService::setSmartServoJointSpeedLimits(const double joint_relative_velocity,
+                                              const double joint_relative_acceleration) {
+  setSmartServoJointSpeedLimits(joint_relative_velocity, joint_relative_acceleration, -1);
+}
 
-  bool PathParametersService::setJointVelocity(const double joint_relative_velocity)
-  {
-    setSmartServoJointSpeedLimits(joint_relative_velocity, -1, -1);
-  }
+bool PathParametersService::setJointVelocity(const double joint_relative_velocity) {
+  setSmartServoJointSpeedLimits(joint_relative_velocity, -1, -1);
+}
 
-  bool PathParametersService::setJointAcceleration(const double joint_relative_acceleration)
-  {
-    setSmartServoJointSpeedLimits(-1, joint_relative_acceleration, -1);
-  }
+bool PathParametersService::setJointAcceleration(const double joint_relative_acceleration) {
+  setSmartServoJointSpeedLimits(-1, joint_relative_acceleration, -1);
+}
 
-  bool PathParametersService::setOverrideJointAcceleration(const double override_joint_acceleration)
-  {
-    setSmartServoJointSpeedLimits(-1, -1, override_joint_acceleration);
-  }
+bool PathParametersService::setOverrideJointAcceleration(const double override_joint_acceleration) {
+  setSmartServoJointSpeedLimits(-1, -1, override_joint_acceleration);
+}
 
 }  // namespace service
 }  // namespace iiwa_ros

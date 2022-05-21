@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<launch>
+
+  <!-- 开启真实IIWA，必需终端导入这两句话 -->
+  <!-- 
+    export ROS_MASTER_URI=http://192.170.10.100:11311
+    export ROS_IP=192.170.10.100 
+  -->
+  <!-- +++++++++++++++++++++++++-->
+
+
+  <!-- Parameters to pass to the ROS node -->
+  <arg name="joint_position_topic" default="/iiwa/state/JointPosition"/>
+  <arg name="cartesian_position_topic" default="/iiwa/state/CartesianPose"/>
+  <arg name="command_cartesian_position_topic" default="/iiwa/command/JointPosition"/>
+  <arg name="command_joint_position_topic" default="/iiwa/command/CartesianPose"/>
+  <arg name="use_cartesian_command" default="true"/>
+  <arg name="ros_rate" default="1"/>
+
+
+  <!--  This loads the robot description  -->
+  <include file="$(find my_iiwa_examples)/launch/rviz_plot.launch">
+  </include>
+
+
+
+  <!-- Here we call the ROS node we have written, with the parameters on top   -->
+  <node ns="iiwa" name="CommandRobot" pkg="my_iiwa_examples" type="command_robot" respawn="false" output="screen">
+    <param name="joint_position_topic" value="$(arg joint_position_topic)"/>
+    <param name="cartesian_position_topic" value="$(arg cartesian_position_topic)"/>
+    <param name="command_cartesian_position_topic" value="$(arg command_cartesian_position_topic)"/>
+    <param name="command_joint_position_topic" value="$(arg command_joint_position_topic)"/>
+    <param name="use_cartesian_command" value="$(arg use_cartesian_command)"/>
+    <param name="ros_rate" value="$(arg ros_rate)"/>
+  </node>
+
+
+</launch>

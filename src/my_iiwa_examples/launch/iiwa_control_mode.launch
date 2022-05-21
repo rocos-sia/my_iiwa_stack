@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<launch>
+
+  <!-- 开启真实IIWA，必需终端导入这两句话 -->
+  <!-- 
+    export ROS_MASTER_URI=http://192.170.10.100:11311
+    export ROS_IP=192.170.10.100 
+  -->
+  <!-- +++++++++++++++++++++++++-->
+
+  <!-- Parameters to pass to the ROS node -->
+  <arg name="ros_rate" default="0.1"/>
+
+  <!--  This loads the robot description  -->
+  <include file="$(find my_iiwa_examples)/launch/rviz_plot.launch">
+  </include>
+
+  <!-- Here we call the ROS node we have written, with the parameters on top   -->
+  <node ns="iiwa" name="ControlMode" pkg="my_iiwa_examples" type="setting_control_mode" respawn="false" output="screen">
+    <param name="ros_rate" value="$(arg ros_rate)"/>
+  </node>
+
+
+</launch>
