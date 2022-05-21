@@ -76,6 +76,7 @@ int main( int argc, char** argv )
             command_joint_position.position.a6 = -45 * M_PI / 180;
             command_joint_position.position.a7 = 0 * M_PI / 180;
             iiwa_joint_command.setPosition( command_joint_position );
+            sleepForMotion( iiwa_time_destination, 2.0 );
             break;
         }
         else
@@ -84,6 +85,8 @@ int main( int argc, char** argv )
             ros::Duration( 5.0 ).sleep( );  // 5 seconds
         }
     }
+
+
 
     while ( ros::ok( ) )
     {
