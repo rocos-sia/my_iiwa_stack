@@ -1,5 +1,5 @@
 # 注意！
-  iiwa_stack 默认接受来自 192.170.10.100主机的控制，所以启动ros master节点之前，导入这两句话
+  iiwa_stack 默认接受来自 192.170.10.100主机的控制，所以启动ros master节点之前，在`~/.bashrc`导入这两句话
   并设置网卡对应的ip
   ```bash
    export ROS_MASTER_URI=http://192.170.10.100:11311
