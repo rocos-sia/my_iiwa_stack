@@ -4,6 +4,29 @@
 #include <iiwa_ros/command/cartesian_pose.hpp>
 #include <iiwa_ros/command/joint_position.hpp>
 
+
+// meaningful is obtained or until a maximum amount of time passed.
+void sleepForMotion( iiwa_ros::service::TimeToDestinationService& iiwa, const double maxSleepTime )
+{
+    double ttd           = iiwa.getTimeToDestination( );
+    ros::Time start_wait = ros::Time::now( );
+    while ( ttd < 0.0 && ( ros::Time::now( ) - start_wait ) < ros::Duration( maxSleepTime ) )
+    {
+        ros::Duration( 0.5 ).sleep( );
+        ttd = iiwa.getTimeToDestination( );
+    }
+    if ( ttd > 0.0 )
+    {
+        ROS_INFO_STREAM( "Sleeping for " << ttd << " seconds." );
+        ros::Duration( ttd ).sleep( );
+    }
+    else
+    {
+        ROS_ERROR_STREAM( "cannot get the TimeToDestination" );
+    }
+}
+
+
 int main( int argc, char** argv )
 {
     // Initialize ROS
@@ -17,13 +40,16 @@ int main( int argc, char** argv )
     iiwa_ros::state::CartesianPose iiwa_pose_state;
     iiwa_ros::service::ControlModeService iiwa_control_mode;
     iiwa_ros::command::JointPosition iiwa_joint_command;
+    iiwa_ros::service::TimeToDestinationService iiwa_time_destination;
+
 
     iiwa_msgs::JointPosition command_joint_position;
 
     iiwa_pose_state.init( "iiwa" );
     iiwa_control_mode.init( "iiwa" );
     iiwa_joint_command.init( "iiwa" );
-
+    iiwa_time_destination.init( "iiwa" );
+    
     // Dynamic parameter to choose the rate at wich this node should run
     double ros_rate = 0.1;
     nh.param( "ros_rate", ros_rate, 0.1 );  // 0.1 Hz = 10 seconds
@@ -43,6 +69,8 @@ int main( int argc, char** argv )
             command_joint_position.position.a6 = -45 * M_PI / 180;
             command_joint_position.position.a7 = 0 * M_PI / 180;
             iiwa_joint_command.setPosition( command_joint_position );
+            sleepForMotion( iiwa_time_destination, 2.0 );
+
             break;
         }
         else
