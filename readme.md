@@ -7,7 +7,7 @@
   ```
 
 
-## 直接使用：
+## 直接使用：(每一步都是独立一个例程)
   1. rviz同步显示，不做任何操作
   `roslaunch my_iiwa_examples  rviz_plot.launch  `
   2. 笛卡尔控制(或关节空间控制，需要roslaunch 文件里use_cartesian_command 参数写为 false)
