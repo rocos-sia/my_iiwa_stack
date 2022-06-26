@@ -4,6 +4,8 @@
 #include <iiwa_ros/service/time_to_destination.hpp>
 #include <iiwa_ros/state/cartesian_pose.hpp>
 #include <iiwa_ros/state/joint_position.hpp>
+#include <iiwa_ros/state/cartesian_wrench.hpp>
+#include <iiwa_ros/service/control_mode.hpp>
 
 // getTimeToDestination() can also return negative values and the info from the cabinet take some milliseconds to update
 // once the motion is started. That means that if you call getTimeToDestination() right after you set a target pose, you
@@ -36,18 +38,28 @@ int main( int argc, char** argv )
     ros::NodeHandle nh( "~" );
 
     iiwa_ros::state::CartesianPose iiwa_pose_state;
+    iiwa_ros::state::CartesianWrench tcp_force_torque;
     iiwa_ros::state::JointPosition iiwa_joint_state;
     iiwa_ros::command::CartesianPose iiwa_pose_command;
     iiwa_ros::command::JointPosition iiwa_joint_command;
     iiwa_ros::service::TimeToDestinationService iiwa_time_destination;
     iiwa_msgs::CartesianPose command_cartesian_position;
     iiwa_msgs::JointPosition command_joint_position;
+    iiwa_ros::service::ControlModeService control_mode;
 
     iiwa_pose_state.init( "iiwa" );
     iiwa_pose_command.init( "iiwa" );
     iiwa_joint_state.init( "iiwa" );
     iiwa_joint_command.init( "iiwa" );
     iiwa_time_destination.init( "iiwa" );
+    tcp_force_torque.init("iiwa");
+    control_mode.init( "iiwa" );
+
+    iiwa_msgs::CartesianQuantity cartesian_stiffness;
+    iiwa_msgs::CartesianQuantity cartesian_damping;
+
+    control_mode.setCartesianImpedanceMode( cartesian_stiffness,cartesian_damping);
+
 
     // ROS spinner.
     ros::AsyncSpinner spinner( 1 );
